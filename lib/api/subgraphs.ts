@@ -1,17 +1,22 @@
 const SUBGRAPH_URLS: Record<string, string> = {
-  ethereum:
-    "https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
-  arbitrum:
-    "https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
-  base: "https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
-  optimism:
-    "https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
-  polygon:
-    "https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
-  bsc: "https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
-  avalanche:
-    "https://gateway.thegraph.com/api/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV",
+  ethereum: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3",
+  arbitrum: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-arbitrum-one",
+  base: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-base",
+  optimism: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-optimism",
+  polygon: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-polygon",
+  bsc: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-bsc",
+  avalanche: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3-avalanche",
 };
+
+const GRAPH_API_KEY = process.env.NEXT_PUBLIC_THEGRAPH_API_KEY;
+
+function getSubgraphUrl(chain: string): string {
+  const baseUrl = SUBGRAPH_URLS[chain] || SUBGRAPH_URLS.ethereum;
+  if (GRAPH_API_KEY) {
+    return `https://gateway.thegraph.com/api/${GRAPH_API_KEY}/subgraphs/id/${chain === 'ethereum' ? '5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV' : 'DqwDgw7xAVjSXLt6XLy6VcwwqJPwS5Q6jY3w7xAVjSXL'}`;
+  }
+  return baseUrl;
+}
 
 export interface SubgraphPosition {
   id: string;
@@ -56,7 +61,7 @@ export async function fetchUniswapV3Positions(
     }
   `;
 
-  const endpoint = SUBGRAPH_URLS[chain] || SUBGRAPH_URLS.ethereum;
+  const endpoint = getSubgraphUrl(chain);
 
   try {
     const res = await fetch(endpoint, {
