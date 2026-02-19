@@ -20,7 +20,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     if (hasAnyConnection) {
-      router.push("/");
+      router.push("/dashboard");
     }
   }, [hasAnyConnection, router]);
 
