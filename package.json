@@ -10,7 +10,7 @@
     "test": "vitest",
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
-    "postinstall": "if [ ! -f components.json ]; then npx shadcn@latest init -d; fi"
+    "postinstall": "echo 'shadcn already initialized'"
   },
   "dependencies": {
     "next": "15.1.3",
