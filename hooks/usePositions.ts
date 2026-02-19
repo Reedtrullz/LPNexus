@@ -26,7 +26,7 @@ const MOCK_PRICES: Record<string, number> = {
 };
 
 function getTokenPrice(symbol: string): number {
-  return MOCK_PRICES[symbol] || 1;
+  return MOCK_PRICES[symbol] ?? 1;
 }
 
 export function usePositions() {
@@ -111,15 +111,15 @@ export function usePositions() {
         sqrtPriceCurrent,
         tickLower,
         tickUpper,
-        token0.priceUsd,
-        token1.priceUsd
+        token0.priceUsd ?? 0,
+        token1.priceUsd ?? 0
       );
 
       const { ilUSD, ilPercent } = calculatePositionIL(
         liquidity,
         sqrtPriceCurrent,
         sqrtPriceCurrent * 0.98,
-        token1.priceUsd
+        token1.priceUsd ?? 0
       );
 
       const timeInRange = estimateTimeInRange(tickLower, tickUpper, currentTick);
