@@ -1,0 +1,46 @@
+services:
+  # LP Nexus Web Service
+  - type: web
+    name: lp-nexus
+    runtime: node
+    region: oregon  # Change to your preferred region
+    plan: starter  # Start with starter, can upgrade later
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
+        sync: false  # You'll set this in Render dashboard
+      - key: NEXT_PUBLIC_ALCHEMY_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_INFURA_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_HELIUS_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+    healthCheckPath: /api/health
+    autoDeploy: true
+
+  # Optional: Redis for caching (can skip for initial deployment)
+  # - type: redis
+  #   name: lp-nexus-redis
+  #   plan: starter
+  #   region: oregon
+  #   maxmemoryPolicy: allkeys-lru
+
+  # Optional: PostgreSQL for user data (can skip for initial deployment)
+  # - type: pserv
+  #   name: lp-nexus-db
+  #   runtime: docker
+  #   dockerfilePath: ./docker/postgres.Dockerfile
+  #   envVars:
+  #     - key: POSTGRES_DB
+  #       value: lp_nexus
+  #     - key: POSTGRES_USER
+  #       value: lp_nexus
+  #     - key: POSTGRES_PASSWORD
+  #       generateValue: true
