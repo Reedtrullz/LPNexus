@@ -3,11 +3,6 @@ import withPWA from "@ducanh2912/next-pwa";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    appDir: true,
-    serverActions: true,
-  },
   images: {
     domains: ["raw.githubusercontent.com", "assets.coingecko.com"],
   },
