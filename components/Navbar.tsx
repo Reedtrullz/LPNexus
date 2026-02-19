@@ -5,6 +5,7 @@ import { Wallet, Menu, X } from "lucide-react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import AlertsPanel from "./AlertsPanel";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -33,6 +34,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
+          <AlertsPanel />
           <ConnectButton />
           <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2">
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}

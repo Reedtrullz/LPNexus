@@ -8,12 +8,15 @@ import GrokChat from "@/components/GrokChat";
 import AnimatedOrbs from "@/components/AnimatedOrbs";
 import GlassCard from "@/components/ui/GlassCard";
 import PositionCard from "@/components/PositionCard";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import { useUserPositions } from "@/hooks/useUserPositions";
 import { ArrowRight, Plus, Shield, Brain, Zap, Globe, BarChart3 } from "lucide-react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Home() {
   const { isConnected } = useAccount();
   const [chatOpen, setChatOpen] = useState(false);
+  const { data: positions = [], isLoading } = useUserPositions();
 
   const mockPositions = [
     { pair: "ETH/USDC", chain: "Base", il: -0.8, fees: "1.24", tvl: "184k" },
@@ -197,13 +200,31 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {mockPositions.map((pos, i) => (
-              <PositionCard key={i} {...pos} />
-            ))}
+            {isLoading ? (
+              <div className="col-span-3 text-center py-12 text-white/50">
+                Scanning blockchain for your positions...
+              </div>
+            ) : positions.length > 0 ? (
+              positions.map((pos) => (
+                <PositionCard
+                  key={pos.id}
+                  pair={pos.pair}
+                  chain={pos.chain}
+                  il={0}
+                  fees={pos.feesOwed}
+                  tvl={pos.liquidity}
+                />
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-12 text-white/50">
+                No active LP positions found yet
+              </div>
+            )}
           </div>
         </div>
       </div>
 
+      <PWAInstallPrompt />
       <GrokChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
     </>
   );
