@@ -27,20 +27,27 @@ interface PriceDataPoint {
 }
 
 interface ILSimulatorProps {
-  position: {
-    tickLower: number;
-    tickUpper: number;
-    liquidity: string;
-    token0: { priceUSD: number; symbol: string };
-    token1: { priceUSD: number; symbol: string };
-    feeTier: number;
-    historyPrices: PriceDataPoint[];
+  position?: {
+    tickLower?: number;
+    tickUpper?: number;
+    liquidity?: string;
+    token0?: { priceUSD?: number; symbol?: string };
+    token1?: { priceUSD?: number; symbol?: string };
+    feeTier?: number;
+    historyPrices?: PriceDataPoint[];
   };
 }
 
 export function ILSimulator({ position }: ILSimulatorProps) {
-  const [rangeLower, setRangeLower] = useState(position.tickLower);
-  const [rangeUpper, setRangeUpper] = useState(position.tickUpper);
+  const tickLower = position?.tickLower ?? 0;
+  const tickUpper = position?.tickUpper ?? 0;
+  const liquidity = position?.liquidity ?? "0";
+  const token0Price = position?.token0?.priceUSD ?? 0;
+  const token1Price = position?.token1?.priceUSD ?? 0;
+  const feeTier = position?.feeTier ?? 3000;
+  
+  const [rangeLower, setRangeLower] = useState(tickLower);
+  const [rangeUpper, setRangeUpper] = useState(tickUpper);
   const [volatility, setVolatility] = useState(45);
   const [timeDays, setTimeDays] = useState(30);
   const [simCount, setSimCount] = useState(10000);
@@ -58,16 +65,16 @@ export function ILSimulator({ position }: ILSimulatorProps) {
 
     setTimeout(() => {
       const params: SimulationParams = {
-        currentPrice0: position.token0.priceUSD,
-        currentPrice1: position.token1.priceUSD,
+        currentPrice0: token0Price,
+        currentPrice1: token1Price,
         tickLower: rangeLower,
         tickUpper: rangeUpper,
-        liquidity: BigInt(position.liquidity),
+        liquidity: BigInt(liquidity),
         volatility,
         timeDays,
         simulations: simCount,
         correlation: 0.65,
-        feeTier: position.feeTier,
+        feeTier: feeTier,
       };
 
       const simResult = runMonteCarlo(params);
@@ -79,7 +86,7 @@ export function ILSimulator({ position }: ILSimulatorProps) {
         clearInterval(progressInterval);
       }, 200);
     }, 100);
-  }, [position, rangeLower, rangeUpper, volatility, timeDays, simCount]);
+  }, [rangeLower, rangeUpper, volatility, timeDays, simCount, token0Price, token1Price, feeTier, liquidity]);
 
   useEffect(() => {
     runSimulation();
