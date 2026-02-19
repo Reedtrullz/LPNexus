@@ -110,10 +110,10 @@ export function ILSimulator({ position }: ILSimulatorProps) {
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <div className="lg:col-span-8">
         <PricePathChart
-          priceData={position.historyPrices}
+          priceData={position?.historyPrices ?? []}
           rangeLower={rangeLower * 0.01}
           rangeUpper={rangeUpper * 0.01}
-          currentPrice={position.token1.priceUSD}
+          currentPrice={position?.token1?.priceUSD ?? 0}
         />
 
         <div className="mt-6 grid grid-cols-2 gap-6">
@@ -128,7 +128,7 @@ export function ILSimulator({ position }: ILSimulatorProps) {
               value={[rangeLower]}
               onValueChange={(v) => handleRangeChange("lower", v[0])}
               max={rangeUpper - 100}
-              min={position.tickLower - 2000}
+              min={    tickLower - 2000}
               step={10}
             />
           </div>
@@ -143,7 +143,7 @@ export function ILSimulator({ position }: ILSimulatorProps) {
             <Slider
               value={[rangeUpper]}
               onValueChange={(v) => handleRangeChange("upper", v[0])}
-              max={position.tickUpper + 2000}
+              max={tickUpper + 2000}
               min={rangeLower + 100}
               step={10}
             />
