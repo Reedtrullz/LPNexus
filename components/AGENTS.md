@@ -19,8 +19,13 @@ components/
 │   └── ILSimulator.tsx
 ├── charts/           # Chart wrappers
 │   └── PricePathChart.tsx
-└── common/           # Shared elements
-    └── Logo.tsx
+├── common/           # Shared elements
+│   └── Logo.tsx
+├── Navbar.tsx        # Navigation with active states
+├── Sidebar.tsx       # Collapsible dashboard sidebar
+├── GrokChat.tsx      # AI chat sidebar (Grok)
+├── AnimatedOrbs.tsx # Hero background animation
+└── GlassCard.tsx    # Reusable glass card wrapper
 ```
 
 ## CONVENTIONS
@@ -35,7 +40,7 @@ components/
 - Props interface always exported
 - Framer Motion for animations (`whileHover`, `animate`)
 - Lucide React for icons
-- Glassmorphism: `bg-zinc-950/80 border-zinc-800`
+- Glassmorphism: `glass` class with backdrop blur
 
 ### Component Template
 ```tsx
@@ -61,6 +66,8 @@ export function Component({ className }: Props) {
 | Position display | `positions/` |
 | Chart types | `charts/` |
 | Shared branding | `common/` |
+| Dashboard sidebar | `Sidebar.tsx` |
+| AI chat | `GrokChat.tsx` |
 
 ## ANTI-PATTERNS
 

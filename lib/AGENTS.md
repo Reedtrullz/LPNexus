@@ -7,7 +7,7 @@
 ```
 lib/
 ├── web3/               # Multi-chain wallet infrastructure
-│   ├── wagmiConfig.ts  # EVM chains + RainbowKit
+│   ├── wagmiConfig.ts  # EVM chains + RainbowKit (8 chains)
 │   ├── viemClients.ts  # RPC clients with fallbacks
 │   └── solanaAdapter.ts # Solana Wallet Provider
 ├── api/                # External data sources
@@ -15,7 +15,7 @@ lib/
 ├── calculations/       # Mathematical engines
 │   ├── impermanentLoss.ts    # V3 IL formulas
 │   ├── enhancedIL.ts         # Smart entry + volatility
-│   └── monteCarloSimulator.ts # 10k run simulation
+│   └── monteCarloSimulator.ts # Simulation engine
 └── utils.ts            # Shared helpers (cn, formatters)
 ```
 
@@ -23,7 +23,7 @@ lib/
 
 ### Web3
 - wagmi config uses `getDefaultConfig` from RainbowKit
-- viem clients use `fallback()` for multiple RPCs
+- 8 chains: ethereum, arbitrum, base, optimism, polygon, bsc, avalanche, zkSync
 - Solana uses `@solana/wallet-adapter-react`
 
 ### API
@@ -33,9 +33,8 @@ lib/
 
 ### Calculations
 - Pure functions only (no side effects)
-- JSDoc comments for complex formulas
 - Based on Uniswap V3 whitepaper
-- Monte Carlo uses Box-Muller transform
+- Monte Carlo uses GBM price simulation
 
 ## WHERE TO LOOK
 
@@ -53,7 +52,6 @@ lib/
 - **NEVER** hardcode API keys (use env vars)
 - **NEVER** call subgraphs without error handling
 - **ALWAYS** use BigInt for token amounts
-- **ALWAYS** document formula sources in comments
 
 ## FORMULA REFERENCES
 
