@@ -20,6 +20,7 @@ export default function Simulator() {
   const [minPrice, setMinPrice] = useState(2800);
   const [maxPrice, setMaxPrice] = useState(4200);
   const [currentPrice] = useState(3450);
+  const [volatility, setVolatility] = useState(45);
 
   const rangeWidth = ((maxPrice - minPrice) / (maxPrice * 1.5)) * 100;
   const currentPos = ((currentPrice - minPrice) / (maxPrice - minPrice)) * 100;
@@ -27,10 +28,27 @@ export default function Simulator() {
   const estFees = ((maxPrice - minPrice) / 800).toFixed(1);
   const estIL = (Math.pow((currentPrice / ((minPrice + maxPrice) / 2) - 1), 2) * -12).toFixed(1);
 
-  const handleSimulate = () => {
-    toast.success(`Simulated rebalance for ${pair} at $${currentPrice}`, {
-      description: `Est. 30-day profit: +$${estFees} fees / ${estIL}% IL`,
-      action: { label: "Save to Dashboard", onClick: () => toast.info("Saved!") },
+  const runMonteCarlo = () => {
+    const runs = 1000;
+    let totalFees = 0;
+    let totalIL = 0;
+
+    for (let i = 0; i < runs; i++) {
+      const drift = 0.0005;
+      const dt = 30 / 365;
+      const simPrice = currentPrice * Math.exp((drift - 0.5 * Math.pow(volatility/100, 2)) * dt + (volatility/100) * Math.sqrt(dt) * (Math.random() * 2 - 1));
+
+      const avgPrice = (minPrice + maxPrice) / 2;
+      const il = -2 * (1 - Math.sqrt(simPrice / avgPrice)) * 100;
+      totalIL += il;
+      totalFees += (maxPrice - minPrice) / 1200 * (Math.random() + 0.8);
+    }
+
+    const avgFees = (totalFees / runs).toFixed(1);
+    const avgIL = (totalIL / runs).toFixed(1);
+
+    toast.success(`Monte-Carlo complete (${runs} paths)`, {
+      description: `30-day: +$${avgFees} fees | ${avgIL}% IL (vol ${volatility}%)`,
     });
   };
 
@@ -84,6 +102,21 @@ export default function Simulator() {
                     />
                   </div>
 
+                  <div>
+                    <div className="flex justify-between text-sm mb-3">
+                      <span>Market Volatility</span>
+                      <span className="font-mono">{volatility}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="10"
+                      max="120"
+                      value={volatility}
+                      onChange={(e) => setVolatility(Number(e.target.value))}
+                      className="w-full accent-nexus-cyan"
+                    />
+                  </div>
+
                   <div className="pt-4 border-t border-white/10">
                     <div className="text-sm text-white/50 mb-2">Current market price</div>
                     <div className="text-4xl font-mono font-semibold">${currentPrice}</div>
@@ -93,12 +126,12 @@ export default function Simulator() {
 
               <GlassCard className="text-center">
                 <button
-                  onClick={handleSimulate}
+                  onClick={runMonteCarlo}
                   className="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-violet-500 text-black font-semibold flex items-center justify-center gap-3 hover:brightness-110 transition"
                 >
                   Run Monte-Carlo Simulation <Play size={20} />
                 </button>
-                <p className="text-xs text-white/50 mt-4">30-day projection • 10,000 paths</p>
+                <p className="text-xs text-white/50 mt-4">30-day projection • 1,000 paths</p>
               </GlassCard>
             </div>
 

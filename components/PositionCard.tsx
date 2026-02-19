@@ -1,21 +1,31 @@
 import { ArrowRight, TrendingUp } from "lucide-react";
 
-export default function PositionCard() {
+interface PositionCardProps {
+  pair?: string;
+  chain?: string;
+  il?: number;
+  fees?: string;
+  tvl?: string;
+}
+
+export default function PositionCard({ pair = "ETH/USDC", chain = "Base", il = -0.8, fees = "1.24", tvl = "184k" }: PositionCardProps) {
+  const ilColor = il >= 0 ? "text-emerald-400" : "text-red-400";
+  
   return (
     <div className="glass rounded-3xl p-6 card-hover border border-white/10">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <div className="flex -space-x-3">
-            <div className="w-9 h-9 bg-yellow-500 rounded-full border-2 border-nexus-surface flex items-center justify-center text-xs">ETH</div>
-            <div className="w-9 h-9 bg-blue-500 rounded-full border-2 border-nexus-surface flex items-center justify-center text-xs">USDC</div>
+            <div className="w-9 h-9 bg-yellow-500 rounded-full border-2 border-nexus-surface flex items-center justify-center text-xs">{pair.split('/')[0]}</div>
+            <div className="w-9 h-9 bg-blue-500 rounded-full border-2 border-nexus-surface flex items-center justify-center text-xs">{pair.split('/')[1]}</div>
           </div>
           <div>
-            <div className="font-semibold">ETH/USDC • Uniswap V3</div>
-            <div className="text-xs text-emerald-400">Base • Active</div>
+            <div className="font-semibold">{pair} • Uniswap V3</div>
+            <div className="text-xs text-emerald-400">{chain} • Active</div>
           </div>
         </div>
         <div className="text-right">
-          <div className="text-emerald-400 font-mono text-sm">+4.82%</div>
+          <div className="text-emerald-400 font-mono text-sm">+{fees}%</div>
           <div className="text-xs text-white/50">24h fees</div>
         </div>
       </div>
@@ -28,15 +38,15 @@ export default function PositionCard() {
       <div className="grid grid-cols-3 gap-4 text-center text-sm">
         <div>
           <div className="text-white/50 text-xs">IL</div>
-          <div className="font-mono text-emerald-400">-0.8%</div>
+          <div className={`font-mono ${ilColor}`}>{il}%</div>
         </div>
         <div>
           <div className="text-white/50 text-xs">Fees</div>
-          <div className="font-mono">1.24 ETH</div>
+          <div className="font-mono">{fees} ETH</div>
         </div>
         <div>
           <div className="text-white/50 text-xs">TVL</div>
-          <div className="font-mono">$184k</div>
+          <div className="font-mono">${tvl}</div>
         </div>
       </div>
 
