@@ -1,13 +1,4 @@
-/** @type {import('next').NextConfig} */
-const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: "public",
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === "development",
-  fallbacks: {
-    document: "/~offline",
-  },
-});
+import withPWA from "@ducanh2912/next-pwa";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -33,4 +24,14 @@ const nextConfig = {
   },
 };
 
-module.exports = withPWA(nextConfig);
+const withWP = withPWA({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+  fallbacks: {
+    document: "/~offline",
+  },
+});
+
+export default withWP(nextConfig);
