@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "@/components/Navbar";
+import AnimatedOrbs from "@/components/AnimatedOrbs";
 import GlassCard from "@/components/ui/GlassCard";
 import PositionCard from "@/components/PositionCard";
 import { ArrowRight, Shield, Brain, Zap, Globe, BarChart3 } from "lucide-react";
@@ -12,8 +13,9 @@ export default function Home() {
       <Navbar />
       
       <main className="min-h-screen bg-nexus-bg text-white overflow-hidden">
-        <section className="hero-bg pt-32 pb-24 relative">
-          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+        <section className="hero-bg pt-32 pb-24 relative overflow-hidden">
+          <AnimatedOrbs />
+          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs tracking-widest">
                 🔥 LIVE ON 7 CHAINS • 60+ DEXes
