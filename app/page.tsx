@@ -9,6 +9,7 @@ import AnimatedOrbs from "@/components/AnimatedOrbs";
 import GlassCard from "@/components/ui/GlassCard";
 import PositionCard from "@/components/PositionCard";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import TaxExportButton from "@/components/TaxExportButton";
 import { useUserPositions } from "@/hooks/useUserPositions";
 import { ArrowRight, Plus, Shield, Brain, Zap, Globe, BarChart3 } from "lucide-react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -177,12 +178,12 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             {[
               { label: "Total Value", value: "$697k", change: "+4.2%" },
               { label: "Est. IL", value: "-1.1%", change: "neutral" },
               { label: "Fees 7d", value: "$2,184", change: "+18%" },
-              { label: "Positions", value: "3", change: "" },
+              { label: "Positions", value: positions.length > 0 ? positions.length.toString() : "3", change: "" },
             ].map((kpi, i) => (
               <GlassCard key={i} className="p-6">
                 <div className="text-white/50 text-sm">{kpi.label}</div>
@@ -192,11 +193,29 @@ export default function Home() {
             ))}
           </div>
 
+          <div className="grid grid-cols-3 gap-6 mb-12">
+            <GlassCard>
+              <div className="text-white/50 text-sm">Total TVL</div>
+              <div className="text-3xl font-mono font-bold mt-2">$697,420</div>
+            </GlassCard>
+            <GlassCard>
+              <div className="text-white/50 text-sm">Lifetime Fees</div>
+              <div className="text-3xl font-mono font-bold mt-2 text-emerald-400">$8,421</div>
+            </GlassCard>
+            <GlassCard>
+              <div className="text-white/50 text-sm">Unrealized IL</div>
+              <div className="text-3xl font-mono font-bold mt-2 text-orange-400">-1.4%</div>
+            </GlassCard>
+          </div>
+
           <div className="mb-4 flex justify-between items-center">
             <div className="text-2xl font-semibold">My Positions</div>
-            <button className="flex items-center gap-2 text-cyan-400">
-              <Plus size={18} /> New Position
-            </button>
+            <div className="flex gap-3">
+              <TaxExportButton />
+              <button className="flex items-center gap-2 text-cyan-400">
+                <Plus size={18} /> New Position
+              </button>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -208,8 +227,10 @@ export default function Home() {
               positions.map((pos) => (
                 <PositionCard
                   key={pos.id}
+                  id={pos.id}
                   pair={pos.pair}
                   chain={pos.chain}
+                  chainId={pos.chainId}
                   il={0}
                   fees={pos.feesOwed}
                   tvl={pos.liquidity}
