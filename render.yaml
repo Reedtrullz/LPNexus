@@ -5,11 +5,13 @@ services:
     runtime: node
     region: oregon  # Change to your preferred region
     plan: starter  # Start with starter, can upgrade later
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --ignore-scripts && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NODE_VERSION
+        value: "20"
       - key: NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
         sync: false  # You'll set this in Render dashboard
       - key: NEXT_PUBLIC_ALCHEMY_API_KEY
