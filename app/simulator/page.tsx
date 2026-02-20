@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import GlassCard from "@/components/ui/GlassCard";
-import { ArrowRight, Play, RefreshCw } from "lucide-react";
+import { ArrowRight, Play, RefreshCw, TrendingUp, TrendingDown } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { toast } from "sonner";
 
@@ -55,26 +55,26 @@ export default function Simulator() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-nexus-bg pt-24 pb-16">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <div className="inline text-nexus-cyan text-sm tracking-[3px]">POWERED BY GROK AI</div>
-            <h1 className="text-6xl font-bold tracking-tighter mt-3">LP Simulator</h1>
-            <p className="text-2xl text-white/70 mt-4">See exactly what your range will earn</p>
+      <main className="min-h-screen bg-nexus-bg pt-20 pb-12">
+        <div className="max-w-5xl mx-auto px-5">
+          <div className="text-center mb-10">
+            <div className="inline text-cyan-400 text-xs font-medium tracking-[2px]">POWERED BY GROK AI</div>
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mt-3">LP Simulator</h1>
+            <p className="text-white/50 mt-2">See exactly what your range will earn</p>
           </div>
 
-          <div className="grid lg:grid-cols-5 gap-8">
-            <div className="lg:col-span-2 space-y-8">
+          <div className="grid lg:grid-cols-5 gap-6">
+            <div className="lg:col-span-2 space-y-5">
               <GlassCard>
-                <div className="flex justify-between mb-6">
-                  <div className="font-semibold text-xl">ETH / USDC • Uniswap V3</div>
-                  <div className="text-emerald-400 font-mono">Base</div>
+                <div className="flex justify-between items-center mb-5">
+                  <div className="font-medium text-sm">ETH / USDC • Uniswap V3</div>
+                  <div className="text-emerald-400 text-xs">Base</div>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-5">
                   <div>
-                    <div className="flex justify-between text-sm mb-3">
-                      <span>Min Price</span>
+                    <div className="flex justify-between text-xs mb-2.5">
+                      <span className="text-white/50">Min Price</span>
                       <span className="font-mono">${minPrice}</span>
                     </div>
                     <input
@@ -83,13 +83,13 @@ export default function Simulator() {
                       max="5000"
                       value={minPrice}
                       onChange={(e) => setMinPrice(Number(e.target.value))}
-                      className="w-full accent-nexus-cyan"
+                      className="w-full accent-cyan-400"
                     />
                   </div>
 
                   <div>
-                    <div className="flex justify-between text-sm mb-3">
-                      <span>Max Price</span>
+                    <div className="flex justify-between text-xs mb-2.5">
+                      <span className="text-white/50">Max Price</span>
                       <span className="font-mono">${maxPrice}</span>
                     </div>
                     <input
@@ -98,13 +98,13 @@ export default function Simulator() {
                       max="5000"
                       value={maxPrice}
                       onChange={(e) => setMaxPrice(Number(e.target.value))}
-                      className="w-full accent-nexus-cyan"
+                      className="w-full accent-cyan-400"
                     />
                   </div>
 
                   <div>
-                    <div className="flex justify-between text-sm mb-3">
-                      <span>Market Volatility</span>
+                    <div className="flex justify-between text-xs mb-2.5">
+                      <span className="text-white/50">Market Volatility</span>
                       <span className="font-mono">{volatility}%</span>
                     </div>
                     <input
@@ -113,13 +113,13 @@ export default function Simulator() {
                       max="120"
                       value={volatility}
                       onChange={(e) => setVolatility(Number(e.target.value))}
-                      className="w-full accent-nexus-cyan"
+                      className="w-full accent-cyan-400"
                     />
                   </div>
 
-                  <div className="pt-4 border-t border-white/10">
-                    <div className="text-sm text-white/50 mb-2">Current market price</div>
-                    <div className="text-4xl font-mono font-semibold">${currentPrice}</div>
+                  <div className="pt-4 border-t border-white/5">
+                    <div className="text-white/40 text-xs mb-1">Current market price</div>
+                    <div className="text-2xl font-mono font-semibold">${currentPrice}</div>
                   </div>
                 </div>
               </GlassCard>
@@ -127,62 +127,63 @@ export default function Simulator() {
               <GlassCard className="text-center">
                 <button
                   onClick={runMonteCarlo}
-                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-violet-500 text-black font-semibold flex items-center justify-center gap-3 hover:brightness-110 transition"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-500 text-black font-medium text-sm flex items-center justify-center gap-2 hover:brightness-110 transition"
                 >
-                  Run Monte-Carlo Simulation <Play size={20} />
+                  <Play size={16} />
+                  Run Monte-Carlo Simulation
                 </button>
-                <p className="text-xs text-white/50 mt-4">30-day projection • 1,000 paths</p>
+                <p className="text-xs text-white/40 mt-3">30-day projection • 1,000 paths</p>
               </GlassCard>
             </div>
 
             <div className="lg:col-span-3">
-              <GlassCard className="p-10">
-                <div className="text-center mb-10">
-                  <div className="text-emerald-400 font-mono text-5xl font-semibold tracking-tighter">
+              <GlassCard className="p-6">
+                <div className="text-center mb-8">
+                  <div className="text-emerald-400 font-mono text-4xl font-semibold tracking-tight">
                     +${estFees} fees
                   </div>
-                  <div className="text-white/50">30-day estimate</div>
+                  <div className="text-white/40 text-sm">30-day estimate</div>
                 </div>
 
-                <div className="relative h-5 bg-white/10 rounded-full mb-12 overflow-hidden">
+                <div className="relative h-4 bg-white/10 rounded-full mb-10 overflow-hidden">
                   <div
-                    className="absolute h-5 bg-gradient-to-r from-cyan-400 via-violet-500 to-emerald-400 rounded-full"
+                    className="absolute h-4 bg-gradient-to-r from-cyan-400 via-violet-500 to-emerald-400 rounded-full"
                     style={{ left: `${Math.max(0, currentPos - rangeWidth / 2)}%`, width: `${rangeWidth}%` }}
                   />
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full border-4 border-cyan-400 shadow-[0_0_20px_#67e8f9]"
+                    className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full border-2 border-cyan-400 shadow-[0_0_15px_#67e8f9]"
                     style={{ left: `${currentPos}%` }}
                   />
                 </div>
 
-                <div className="grid grid-cols-3 gap-6 text-center">
+                <div className="grid grid-cols-3 gap-4 text-center">
                   <div>
-                    <div className="text-white/50 text-sm">Est. IL</div>
-                    <div className="text-3xl font-mono text-emerald-400">{estIL}%</div>
+                    <div className="text-white/40 text-xs">Est. IL</div>
+                    <div className="text-lg font-medium text-orange-400">{estIL}%</div>
                   </div>
                   <div>
-                    <div className="text-white/50 text-sm">APY</div>
-                    <div className="text-3xl font-mono">18.4%</div>
+                    <div className="text-white/40 text-xs">APY</div>
+                    <div className="text-lg font-medium">18.4%</div>
                   </div>
                   <div>
-                    <div className="text-white/50 text-sm">TVL in range</div>
-                    <div className="text-3xl font-mono">$1.24M</div>
+                    <div className="text-white/40 text-xs">TVL in range</div>
+                    <div className="text-lg font-medium">$1.24M</div>
                   </div>
                 </div>
 
-                <div className="mt-12 h-64">
+                <div className="mt-8 h-48">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={mockData}>
                       <defs>
                         <linearGradient id="fees" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#67e8f9" stopOpacity={0.4} />
+                          <stop offset="5%" stopColor="#67e8f9" stopOpacity={0.3} />
                           <stop offset="95%" stopColor="#67e8f9" stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <XAxis dataKey="day" stroke="#ffffff30" />
-                      <YAxis stroke="#ffffff30" />
-                      <Tooltip contentStyle={{ background: "#0f1117", border: "none", borderRadius: "12px" }} />
-                      <Area type="natural" dataKey="fees" stroke="#67e8f9" fill="url(#fees)" />
+                      <XAxis dataKey="day" stroke="#ffffff30" fontSize={10} />
+                      <YAxis stroke="#ffffff30" fontSize={10} />
+                      <Tooltip contentStyle={{ background: "#0f1117", border: "none", borderRadius: "8px", fontSize: "12px" }} />
+                      <Area type="natural" dataKey="fees" stroke="#67e8f9" strokeWidth={2} fill="url(#fees)" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
