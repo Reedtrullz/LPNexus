@@ -78,11 +78,14 @@
     @apply border-border;
   }
   html {
-    background: #050507;
+    background: #050507 !important;
+    min-height: 100%;
   }
   body {
-    @apply bg-nexus-bg text-white antialiased;
+    background: #050507 !important;
+    @apply text-white antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    min-height: 100vh;
   }
 }
 
@@ -191,8 +194,8 @@
 
   .page-bg {
     background: 
-      radial-gradient(ellipse 100% 100% at 50% 0%, rgba(103, 232, 249, 0.03) 0%, transparent 50%),
-      #050507;
+      radial-gradient(ellipse 100% 100% at 50% 0%, rgba(103, 232, 249, 0.04) 0%, transparent 50%),
+      #050507 !important;
   }
 }
 
