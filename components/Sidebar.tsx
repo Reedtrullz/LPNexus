@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, BarChart3, PlayCircle, Bell, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, BarChart3, PlayCircle, Bell, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useAccount } from "wagmi";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,16 +29,16 @@ export default function Sidebar() {
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-      className={`fixed left-0 top-0 bottom-0 z-50 glass-surface border-r border-white/10 transition-all duration-300 ${collapsed ? "w-20" : "w-72"}`}
+      className={`fixed left-0 top-0 bottom-0 z-40 glass-surface border-r border-white/5 transition-all duration-300 ${collapsed ? "w-16" : "w-60"}`}
     >
-      <div className="p-6 flex items-center justify-between">
+      <div className="p-4 flex items-center justify-between">
         <AnimatePresence mode="wait">
           {!collapsed && (
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
-              className="font-bold text-2xl gradient-text"
+              className="font-bold text-lg gradient-text-static"
             >
               LP NEXUS
             </motion.div>
@@ -48,13 +48,13 @@ export default function Sidebar() {
           onClick={() => setCollapsed(!collapsed)} 
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="p-2 hover:bg-white/10 rounded-xl tap-target"
+          className="p-1.5 hover:bg-white/5 rounded-lg"
         >
-          {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </motion.button>
       </div>
 
-      <div className="px-3 space-y-2">
+      <div className="px-2.5 space-y-1">
         {navItems.map((item, index) => (
           <motion.div
             key={item.label}
@@ -64,19 +64,20 @@ export default function Sidebar() {
           >
             <Link
               href={item.href}
-              className={`flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-medium transition relative ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition relative ${
                 isActive(item.href) 
-                  ? "text-cyan-400 bg-cyan-400/10" 
-                  : "hover:bg-white/5 hover:text-white"
+                  ? "text-white bg-white/5" 
+                  : "text-white/50 hover:text-white hover:bg-white/5"
               }`}
             >
-              <item.icon size={20} />
+              <item.icon size={18} className={isActive(item.href) ? "text-cyan-400" : ""} />
               <AnimatePresence mode="wait">
                 {!collapsed && (
                   <motion.span
                     initial={{ opacity: 0, width: 0 }}
                     animate={{ opacity: 1, width: "auto" }}
                     exit={{ opacity: 0, width: 0 }}
+                    className="whitespace-nowrap"
                   >
                     {item.label}
                   </motion.span>
@@ -85,7 +86,7 @@ export default function Sidebar() {
               {isActive(item.href) && (
                 <motion.div 
                   layoutId="sidebar-indicator"
-                  className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-cyan-400 rounded-r-full"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-cyan-400 rounded-r-full"
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 />
               )}
@@ -100,11 +101,11 @@ export default function Sidebar() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="absolute bottom-8 left-6 right-6"
+            className="absolute bottom-5 left-3 right-3"
           >
-            <div className="glass rounded-2xl p-4 text-xs">
-              <div className="text-white/50 mb-1">Connected</div>
-              <div className="font-mono text-cyan-400 truncate">{address}</div>
+            <div className="glass rounded-xl p-3 text-xs">
+              <div className="text-white/40 mb-1">Connected</div>
+              <div className="text-cyan-400 font-mono truncate">{address}</div>
             </div>
           </motion.div>
         )}

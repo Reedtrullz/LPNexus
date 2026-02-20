@@ -23,7 +23,7 @@ export default function GlassCard({
   };
 
   return (
-    <div className={cn(variantClasses[variant], "rounded-3xl p-8", className)}>
+    <div className={cn(variantClasses[variant], "rounded-2xl p-6", className)}>
       {children}
     </div>
   );

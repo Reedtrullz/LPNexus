@@ -1,6 +1,7 @@
 "use client";
 
 import { Download } from "lucide-react";
+import { motion } from "framer-motion";
 import { useUserPositions } from "@/hooks/useUserPositions";
 import { toast } from "sonner";
 
@@ -59,11 +60,13 @@ export default function TaxExportButton() {
   };
 
   return (
-    <button 
+    <motion.button 
       onClick={exportCSV} 
-      className="flex items-center gap-2 px-6 py-3 glass rounded-2xl hover:neon-cyan text-sm font-medium transition-all"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className="flex items-center gap-2 px-4 py-2 glass rounded-xl text-sm font-medium hover:bg-white/10 transition-colors"
     >
-      <Download size={18} /> Export Tax CSV (Koinly)
-    </button>
+      <Download size={14} /> Export Tax CSV
+    </motion.button>
   );
 }
