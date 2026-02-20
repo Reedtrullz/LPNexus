@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, TrendingUp, ExternalLink, MoreHorizontal } from "lucide-react";
+import { ArrowRight, TrendingUp, ExternalLink, MoreHorizontal, TrendingDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePositionActions } from "@/hooks/usePositionActions";
 import { toast } from "sonner";
@@ -25,14 +25,16 @@ export default function PositionCard({
   il = -0.8, 
   fees = "1.24", 
   tvl = "184k",
-  minPrice,
-  maxPrice,
+  minPrice = 2800,
+  maxPrice = 4200,
   chainId
 }: PositionCardProps) {
   const [showRebalance, setShowRebalance] = useState(false);
   const { harvestFees, rebalance, isConfirming, hash } = usePositionActions();
   
   const ilColor = il >= 0 ? "text-emerald-400" : "text-orange-400";
+  const currentPrice = 3450;
+  const currentPricePercent = ((currentPrice - minPrice) / (maxPrice - minPrice)) * 100;
 
   const handleHarvest = () => {
     if (!id) {
@@ -46,28 +48,32 @@ export default function PositionCard({
     <motion.div 
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-      className="glass-elevated rounded-2xl p-5 border border-white/10"
+      whileHover={{ y: -6, scale: 1.01 }}
+      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+      className="glass-premium rounded-2xl p-5 border border-white/10 inner-glow"
     >
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <div className="flex -space-x-2">
             <motion.div 
               whileHover={{ scale: 1.1, zIndex: 10 }}
-              className="w-8 h-8 bg-yellow-500 rounded-full border-2 border-nexus-surface flex items-center justify-center text-xs font-medium"
+              className="w-9 h-9 bg-yellow-500 rounded-full ring-2 ring-white/10 flex items-center justify-center text-xs font-bold"
             >
               {pair.split('/')[0]}
             </motion.div>
             <motion.div 
               whileHover={{ scale: 1.1, zIndex: 10 }}
-              className="w-8 h-8 bg-blue-500 rounded-full border-2 border-nexus-surface flex items-center justify-center text-xs font-medium"
+              className="w-9 h-9 bg-blue-500 rounded-full ring-2 ring-white/10 flex items-center justify-center text-xs font-bold"
             >
               {pair.split('/')[1]}
             </motion.div>
           </div>
           <div>
-            <div className="font-semibold text-sm">{pair}</div>
-            <div className="text-xs text-emerald-400">{chain}</div>
+            <div className="font-semibold text-base tracking-tight">{pair}</div>
+            <div className="text-xs text-white/50 flex items-center gap-2">
+              Uniswap V3 • {chain}
+              <span className="inline-block w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+            </div>
           </div>
         </div>
         <motion.button 
@@ -79,50 +85,55 @@ export default function PositionCard({
         </motion.button>
       </div>
 
-      <div className="h-1.5 bg-white/10 rounded-full relative mb-5 overflow-hidden">
-        <motion.div 
-          className="absolute left-[20%] right-[35%] h-1.5 bg-gradient-to-r from-cyan-400 to-violet-500 rounded-full"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          style={{ transformOrigin: "left" }}
-        />
-        <motion.div 
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full border-2 border-cyan-400 shadow-[0_0_10px_#67e8f9]"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 20 }}
-        />
+      <div className="mb-5">
+        <div className="flex justify-between text-[10px] text-white/40 mb-2">
+          <span>Min: ${minPrice.toLocaleString()}</span>
+          <span>Max: ${maxPrice.toLocaleString()}</span>
+        </div>
+        <div className="range-bar">
+          <motion.div 
+            className="range-bar-current"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 20 }}
+            style={{ "--current-price": `${currentPricePercent}%` } as React.CSSProperties}
+          />
+        </div>
+        <div className="text-center text-[10px] text-white/40 mt-1.5">
+          Current: ${currentPrice.toLocaleString()}
+        </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 text-center text-sm">
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <div className="text-white/40 text-xs">IL</div>
-          <div className={`font-medium ${ilColor}`}>{il}%</div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-        >
-          <div className="text-white/40 text-xs">Fees</div>
-          <div className="font-medium">{fees} ETH</div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
+      <div className="grid grid-cols-2 gap-4 text-sm mb-5">
+        <div>
+          <div className="text-white/40 text-xs">Fees earned</div>
+          <div className="font-mono text-lg font-semibold text-emerald-400 metric-value">+{fees} ETH</div>
+        </div>
+        <div>
           <div className="text-white/40 text-xs">TVL</div>
-          <div className="font-medium">${tvl}</div>
-        </motion.div>
+          <div className="font-mono text-lg font-semibold metric-value">${tvl}</div>
+        </div>
       </div>
 
-      <div className="flex gap-2 mt-4">
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className={`text-center py-2 rounded-xl bg-white/5 ${il >= 0 ? 'text-emerald-400' : 'text-orange-400'}`}>
+          <div className="text-[10px] text-white/40">IL</div>
+          <div className="text-sm font-semibold metric-value flex items-center justify-center gap-1">
+            {il >= 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+            {il}%
+          </div>
+        </div>
+        <div className="text-center py-2 rounded-xl bg-white/5">
+          <div className="text-[10px] text-white/40">APY</div>
+          <div className="text-sm font-semibold metric-value">18.4%</div>
+        </div>
+        <div className="text-center py-2 rounded-xl bg-white/5">
+          <div className="text-[10px] text-white/40">Range</div>
+          <div className="text-sm font-semibold metric-value">±5%</div>
+        </div>
+      </div>
+
+      <div className="flex gap-2">
         <motion.button
           onClick={handleHarvest}
           disabled={isConfirming}
@@ -139,7 +150,7 @@ export default function PositionCard({
           whileTap={{ scale: 0.98 }}
           className="flex-1 py-2.5 bg-violet-500/10 hover:bg-violet-500/20 border border-violet-500/20 rounded-xl text-violet-400 text-sm font-medium"
         >
-          Rebalance
+          Adjust
         </motion.button>
       </div>
 

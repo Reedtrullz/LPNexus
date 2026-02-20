@@ -239,7 +239,7 @@ export default function Home() {
     <>
       <Navbar />
       <Sidebar />
-      <div className="pl-0 md:pl-72 pt-20 md:pt-24 min-h-screen bg-nexus-bg">
+      <div className="pl-0 md:pl-60 pt-20 md:pt-24 min-h-screen nexus-bg terminal-grid">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -263,20 +263,11 @@ export default function Home() {
                 3 active positions • +$487 fees this week
               </motion.p>
             </div>
-            <motion.button 
-              onClick={() => setChatOpen(true)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="glass-elevated px-5 py-2.5 rounded-xl flex items-center gap-2 text-sm font-medium"
-            >
-              <Brain size={16} className="text-violet-400" />
-              Ask Grok AI
-            </motion.button>
           </motion.div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
             {[
-              { label: "Total Value", value: "$697k", change: "+4.2%", positive: true },
+              { label: "Total Value", value: "$697,420", change: "+4.2%", positive: true },
               { label: "Est. IL", value: "-1.1%", change: "neutral", neutral: true },
               { label: "Fees 7d", value: "$2,184", change: "+18%", positive: true },
               { label: "Positions", value: positions.length > 0 ? positions.length.toString() : "3", change: "" },
@@ -289,7 +280,7 @@ export default function Home() {
               >
                 <GlassCard variant="elevated" className="p-4">
                   <div className="text-white/40 text-xs font-medium">{kpi.label}</div>
-                  <div className="text-xl md:text-2xl font-semibold mt-1">{kpi.value}</div>
+                  <div className="text-xl md:text-2xl font-semibold mt-1 metric-value">{kpi.value}</div>
                   {kpi.change && (
                     <div className={`text-xs mt-1 ${kpi.positive ? 'text-emerald-400' : kpi.neutral ? 'text-white/40' : ''}`}>
                       {kpi.change}
@@ -314,7 +305,7 @@ export default function Home() {
               >
                 <GlassCard variant="surface" className="p-4">
                   <div className="text-white/40 text-sm">{stat.label}</div>
-                  <div className={`text-xl md:text-2xl font-semibold mt-1 ${stat.color || ""}`}>{stat.value}</div>
+                  <div className={`text-xl md:text-2xl font-semibold mt-1 metric-value ${stat.color || ""}`}>{stat.value}</div>
                 </GlassCard>
               </motion.div>
             ))}
@@ -372,6 +363,17 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <motion.button
+        onClick={() => setChatOpen(true)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-2xl glass-floating flex items-center justify-center border border-white/20 shadow-2xl"
+      >
+        <div className="w-7 h-7 bg-gradient-to-br from-cyan-400 to-violet-500 rounded-xl flex items-center justify-center">
+          <span className="text-xs font-bold text-black">G</span>
+        </div>
+      </motion.button>
 
       <PWAInstallPrompt />
       <GrokChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
