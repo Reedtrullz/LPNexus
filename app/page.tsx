@@ -30,7 +30,7 @@ export default function Home() {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen bg-nexus-bg text-white overflow-hidden">
+        <main className="min-h-screen bg-nexus-bg page-bg text-white overflow-hidden">
           <section className="hero-bg pt-32 pb-24 relative overflow-hidden">
             <AnimatedOrbs />
             <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10">
