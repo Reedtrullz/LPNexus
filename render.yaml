@@ -5,8 +5,8 @@ services:
     runtime: node
     region: oregon  # Change to your preferred region
     plan: starter  # Start with starter, can upgrade later
-    buildCommand: npm install --include=dev && npm run build
-    startCommand: npm start
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm start
     envVars:
       - key: NODE_ENV
         value: production

@@ -1,0 +1,21 @@
+# Single-package repository; this file only carries pnpm settings.
+
+# pnpm 10 runs no dependency install scripts unless they are listed here.
+# This list mirrors every install script npm ran for this lockfile, so the
+# installed tree behaves the same: native addons with JS fallbacks or prebuilt
+# binaries (bufferutil, utf-8-validate, keccak, blake-hash, tiny-secp256k1,
+# usb), binary pickers (esbuild, sharp, unrs-resolver) and package checks
+# (protobufjs, @stellar/stellar-sdk). fsevents is macOS-only and prebuilt.
+allowBuilds:
+  '@stellar/stellar-sdk': true
+  blake-hash: true
+  bufferutil: true
+  esbuild: true
+  keccak: true
+  protobufjs: true
+  sharp: true
+  tiny-secp256k1: true
+  unrs-resolver: true
+  usb: true
+  utf-8-validate: true
+  fsevents: false
