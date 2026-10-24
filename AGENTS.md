@@ -86,10 +86,10 @@ export function Component({ }: Props) { }
 ## COMMANDS
 
 ```bash
-npm run dev          # Start dev server
-npm run build        # Production build
-npm run test         # Vitest unit tests
-npm run e2e          # Playwright E2E tests
+pnpm run dev          # Start dev server
+pnpm run build        # Production build
+pnpm run test         # Vitest unit tests
+pnpm run e2e          # Playwright E2E tests
 ```
 
 ## NOTES

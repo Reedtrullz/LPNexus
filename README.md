@@ -26,14 +26,14 @@ git clone https://github.com/yourname/lp-nexus.git
 cd lp-nexus
 
 # Install dependencies
-npm install
+pnpm install
 
 # Set up environment variables
 cp .env.example .env.local
 # Edit .env.local with your API keys
 
 # Start development server
-npm run dev
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) and connect your wallet.
@@ -77,26 +77,26 @@ lp-nexus/
 
 ```bash
 # Run development server
-npm run dev
+pnpm run dev
 
 # Run tests
-npm run test
+pnpm run test
 
 # Run E2E tests
-npm run e2e
+pnpm run e2e
 
 # Build for production
-npm run build
+pnpm run build
 
 # Start production server
-npm start
+pnpm start
 ```
 
 ## 🧪 Testing
 
 - **Unit Tests**: Vitest
 - **E2E Tests**: Playwright
-- **Coverage**: Run `npm run test -- --coverage`
+- **Coverage**: Run `pnpm run test -- --coverage`
 
 ## 📦 Tech Stack
 

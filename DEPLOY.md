@@ -41,8 +41,8 @@ git push origin main
 4. Configure:
    - **Name**: `lp-nexus`
    - **Environment**: `Node`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm start`
+   - **Build Command**: `corepack enable && ppnpm install --frozen-lockfile && ppnpm run build`
+   - **Start Command**: `pnpm start`
    - **Plan**: Starter ($7/month) or Free
 
 ### 3. Configure Environment Variables
@@ -89,16 +89,16 @@ Once deployed, verify:
 
 ### Build Failures
 
-**Issue**: `npm install` fails or takes too long
+**Issue**: `pnpm install` fails or takes too long
 **Solution**: 
-- Ensure `package-lock.json` is committed
+- Ensure `pnpm-lock.yaml` is committed
 - Try clearing build cache: Settings → Clear Build Cache → Deploy
 
 **Issue**: `next build` fails with TypeScript errors
 **Solution**:
 ```bash
 # Local check before pushing
-npm run build
+pnpm run build
 ```
 
 ### Runtime Errors
